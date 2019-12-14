@@ -23,50 +23,26 @@ State Elevator_ready(Elevator_t *me, Event_t const *e)
 {
     switch (e->sig)
     {
-    case PARKING_SIG:
+    case FLOORBUTTON_SIG:
     {
-        if (me->currentFloor > 0)
-        {
-            return TRAN(&Elevator_moveDown);
-        }
-        return IGNORED();
-    }
-    case FIRST_SIG:
-    {
-        if (me->currentFloor > 1)
-        {
-            return TRAN(&Elevator_moveDown);
-        }
-        else if (me->currentFloor < 1)
-        {
-            return TRAN(&Elevator_moveUp);
-        }
-        return IGNORED();
-    }
-    case SECOND_SIG:
-    {
-        if (me->currentFloor > 2)
-        {
-            return TRAN(&Elevator_moveDown);
-        }
-        else if (me->currentFloor < 2)
-        {
-            return TRAN(&Elevator_moveUp);
-        }
-        return IGNORED();
-    }
-    case THIRD_SIG:
-    {
-        if (me->currentFloor < 3)
-        {
-            return TRAN(&Elevator_moveUp);
-        }
-        return IGNORED();
-    }
-    case PARKINGDOOROPEN_SIG:
-    {
+        FloorBtnEvt_t *event = (FloorBtnEvt_t *)e;
 
-        me->status |= DOOR_OPEN_PARKING; /* preserve status */
+        if ((me->currentFloor) > (event->targetFloor))
+        {
+            return TRAN(&Elevator_moveDown);
+        }
+        if ((me->currentFloor) < (event->targetFloor))
+        {
+            return TRAN(&Elevator_moveUp);
+        }
+        return IGNORED();
+    }
+
+    case DOOROPEN_SIG:
+    {
+        DoorOpenEvt_t *event = (DoorOpenEvt_t *)e;
+
+        me->status |= 1 << (event->floor); /* preserve status */
 
         if (me->currentFloor != 0)
         {
@@ -74,33 +50,7 @@ State Elevator_ready(Elevator_t *me, Event_t const *e)
         }
         return IGNORED();
     }
-    case FIRSTDOOROPEN_SIG:
-    {
-        me->status |= DOOR_OPEN_FIRST; /* preserve status */
-        if (me->currentFloor != 1)
-        {
-            return TRAN(&Elevator_emergency);
-        }
-        return IGNORED();
-    }
-    case SECONDDOOROPEN_SIG:
-    {
-        me->status |= DOOR_OPEN_SECOND; /* preserve status */
-        if (me->currentFloor != 2)
-        {
-            return TRAN(&Elevator_emergency);
-        }
-        return IGNORED();
-    }
-    case THIRDDOOROPEN_SIG:
-    {
-        me->status |= DOOR_OPEN_THIRD; /* preserve status */
-        if (me->currentFloor != 3)
-        {
-            return TRAN(&Elevator_emergency);
-        }
-        return IGNORED();
-    }
+
     case OVERWEIGHT_SIG:
     {
         //add send warning by voice or display

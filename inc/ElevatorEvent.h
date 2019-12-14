@@ -1,16 +1,10 @@
-#include "BaseEvent.h"
+#include "./BaseEvent.h"
 
 enum ElevatorSignals
-{                         /* all signals for the Elevator FSM */
-  PARKING_SIG = USER_SIG, /* Button to Parking */
-  FIRST_SIG,              /* Button to First floor */
-  SECOND_SIG,             /* Button to Second floor */
-  THIRD_SIG,              /* Button to Third floor */
+{                             /* all signals for the Elevator FSM */
+  FLOORBUTTON_SIG = USER_SIG, /* Push button to target floor */
 
-  PARKINGDOOROPEN_SIG, /* Signal from parking door sensor opening */
-  FIRSTDOOROPEN_SIG,   /* Signal from first floor door sensor opening */
-  SECONDDOOROPEN_SIG,  /* Signal from second floor door sensor opening */
-  THIRDDOOROPEN_SIG,   /* Signal from third floor door sensor opening */
+  DOOROPEN_SIG, /* Signal from parking door sensor opening */
 
   UPLIMITSWITCH_SIG,   /* Signal from up limiter switch */
   DOWNLIMITSWITCH_SIG, /* Signal from down limiter switch */
@@ -21,7 +15,16 @@ enum ElevatorSignals
   OVERTEMPERATURE_SIG
 
 };
+typedef struct FloorBtnEvt
+{
+    Event_t ancestor;
+    uint8_t targetFloor;
+} FloorBtnEvt_t;
 
-
+typedef struct DoorOpeneEvt
+{
+    Event_t ancestor;
+    uint8_t floor;
+} DoorOpenEvt_t;
 
 void ElevatorEvent_constructor(void);
