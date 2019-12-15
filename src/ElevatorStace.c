@@ -127,24 +127,51 @@ State Elevator_moveUp(Elevator_t *me, Event_t const *e)
     {
 
         DoorOpenEvt_t *event = (DoorOpenEvt_t *)e;
-        /* in this state since all doors are already closed a door signal means a door is opened while moving up */
-        /* in doubt to stop motor immediately before doing anything else it might save a life so stop motor procedure might be implemented here */
+        /* *
+        * in this state since all doors are already closed a door signal means 
+        * a door is opened while moving up  but an external guard is added to 
+        * make sure if door is opened
+        * */
 
-        me->status |= 1 << (event->floor); /* preserve status */
-        return TRAN(&Elevator_emergency);
+        if (event->status == 1)
+        {
+            /* in this state since all doors are already closed a door signal means a door is opened while moving up */
+            /* in doubt to stop motor immediately before doing anything else it might save a life so stop motor procedure might be implemented here */
+
+            me->status |= 1 << (event->floor); /* preserve status */
+            return TRAN(&Elevator_emergency);
+        }
     }
 
     case OVERWEIGHT_SIG:
     {
-        //add send warning by voice or display
-        me->status |= OVER_WEGHT; /* preserve status */
-        return TRAN(&Elevator_emergency);
+        OverWeightEvt_t *event = (OverWeightEvt_t *)e;
+        /* *
+        * in this state since assumed no overweight existed so overweight signal means 
+        * there is now an overweight but an external guard is added to make sure if 
+        * overweight exists.
+        * */
+        if (event->status == 1)
+        {
+            //add send warning by voice or display
+            me->status |= OVER_WEGHT; /* preserve status */
+            return TRAN(&Elevator_emergency);
+        }
     }
     case OVERTEMPERATURE_SIG:
     {
-        //add send warning by voice or display
-        me->status |= OVER_TEMPERATURE; /* preserve status */
-        return TRAN(&Elevator_emergency);
+        OverTemperatureEvt_t *event = (OverTemperatureEvt_t *)e;
+        /* *
+        * in this state since assumed no overtemperature existed so overtemperature signal means 
+        * there is now an overwtemperature but an external guard is added to make sure if 
+        * overtemperature exists.
+        * */
+        if (event->status == 1)
+        {
+            //add send warning by voice or display
+            me->status |= OVER_TEMPERATURE; /* preserve status */
+            return TRAN(&Elevator_emergency);
+        }
     }
     case HALSENSOR_SIG:
         if (++me->currentFloor == me->targetFloor)
@@ -175,35 +202,61 @@ State Elevator_moveDown(Elevator_t *me, Event_t const *e)
 
         return HANDLED();
 
-    case UPLIMITSWITCH_SIG:
+    case DOWNLIMITSWITCH_SIG:
     {
-        me->status |= UP_LIMIT_SWITCH;
+        me->status |= DOWN_LIMIT_SWITCH;
         return TRAN(&Elevator_emergency);
     }
 
     case DOOR_SIG:
     {
         DoorOpenEvt_t *event = (DoorOpenEvt_t *)e;
-        /* in this state since all doors are already closed a door signal means a door is opened while moving up */
-        /* in doubt to stop motor immediately before doing anything else it might save a life so stop motor procedure might be implemented here */
+        /* *
+        * in this state since all doors are already closed a door signal means 
+        * a door is opened while moving up  but an external guard is added to 
+        * make sure if door is opened
+        * */
 
-        me->status |= 1 << (event->floor); /* preserve status */
-        return TRAN(&Elevator_emergency);
+        if (event->status == 1)
+        {
+            /* in doubt to stop motor immediately before doing anything else it might save a life so stop motor procedure might be implemented here */
+
+            me->status |= 1 << (event->floor); /* preserve status */
+            return TRAN(&Elevator_emergency);
+        }
     }
 
     case OVERWEIGHT_SIG:
     {
-        //add send warning by voice or display
-        /* in doubt to stop motor immediately before doing anything else it might save a life so stop motor procedure might be implemented here */
+        OverWeightEvt_t *event = (OverWeightEvt_t *)e;
+        /* *
+        * in this state since assumed no overweight existed so overweight signal means 
+        * there is now an overweight but an external guard is added to make sure if 
+        * overweight exists.
+        * */
+        if (event->status == 1)
+        {
+            //add send warning by voice or display
+            /* in doubt to stop motor immediately before doing anything else it might save a life so stop motor procedure might be implemented here */
 
-        me->status |= OVER_WEGHT; /* preserve status */
-        return TRAN(&Elevator_emergency);
+            me->status |= OVER_WEGHT; /* preserve status */
+            return TRAN(&Elevator_emergency);
+        }
     }
     case OVERTEMPERATURE_SIG:
     {
-        //add send warning by voice or display
-        me->status |= OVER_TEMPERATURE; /* preserve status */
-        return TRAN(&Elevator_emergency);
+        OverTemperatureEvt_t *event = (OverTemperatureEvt_t *)e;
+        /* *
+        * in this state since assumed no overtemperature existed so overtemperature signal means 
+        * there is now an overwtemperature but an external guard is added to make sure if 
+        * overtemperature exists.
+        * */
+        if (event->status == 1)
+        {
+            //add send warning by voice or display
+            me->status |= OVER_TEMPERATURE; /* preserve status */
+            return TRAN(&Elevator_emergency);
+        }
     }
     case HALSENSOR_SIG:
 
@@ -236,34 +289,13 @@ State Elevator_emergency(Elevator_t *me, Event_t const *e)
     case DOOR_SIG:
     {
         DoorOpenEvt_t *event = (DoorOpenEvt_t *)e;
-        if (event->status == 0)
+        if (event->status == 1) /* a door is opened so stay in current position */
         {
-            me->status &= ~(1 << (event->floor)); /* preserve status */
-            if (me->status)
-                return TRAN(&Elevator_moveDown);
-        }
-        else
-        {
-
             me->status |= 1 << (event->floor); /* preserve status */
             return HANDLED();
         }
-        if (me->betweenTwoFloor) /* elevator stopped between two floor position */
-        {
-            if (me->status == 0) /* no more error exists */
-            {
-                TRAN(&Elevator_moveDown); /* go down to reach a level */
-            }
-        }
-        else /* elevator stopped in a floor position */
-        {
-            if (me->status & ((uint8_t) ~(1 << me->currentFloor)) == 0) /* no more error and all door closed except current floor door that can be opened */
-            {
-                TRAN(&Elevator_ready);
-            }
-        }
-
-        return HANDLED();
+        /* a door is closed so save status but not returned to check further at the end of switch */
+        me->status &= ~(1 << (event->floor)); /* preserve status */
     }
 
     case OVERWEIGHT_SIG:
@@ -274,10 +306,21 @@ State Elevator_emergency(Elevator_t *me, Event_t const *e)
             me->status |= OVER_WEGHT; /* set overweight bit */
             return HANDLED();
         }
-        else
-        {                              /* no more overweight */
-            me->status &= ~OVER_WEGHT; /* clear overweight bit */
+        /* no more overweight but not returned to check further at the end of switch  */
+        me->status &= ~OVER_WEGHT; /* clear overweight bit */
+    }
+    case OVERTEMPERATURE_SIG:
+    {
+        OverTemperatureEvt_t *event = (OverTemperatureEvt_t *)e;
+        if (event->status == 1)
+        {                                   /* elevator overtemperaure */
+            me->status |= OVER_TEMPERATURE; /* set overtemperaure bit */
+            return HANDLED();
         }
+        /* no more overtemperaure but not returned to check further at the end of switch */
+        me->status &= ~OVER_TEMPERATURE; /* clear overtemperaure bit */
+    }
+        // check for all event when all errors are gone */
         if (me->betweenTwoFloor) /* elevator stopped between two floor position */
         {
             if (me->status == 0) /* no more error exists */
@@ -293,33 +336,5 @@ State Elevator_emergency(Elevator_t *me, Event_t const *e)
             }
         }
     }
-    case OVERTEMPERATURE_SIG:
-    {
-        OverTemperatureEvt_t *event = (OverTemperatureEvt_t *)e;
-        if (event->status == 1)
-        {                                   /* elevator overtemperaure */
-            me->status |= OVER_TEMPERATURE; /* set overtemperaure bit */
-            return HANDLED();
-        }
-        else
-        {                                    /* no more overtemperaure */
-            me->status &= ~OVER_TEMPERATURE; /* clear overtemperaure bit */
-        }
-        if (me->betweenTwoFloor) /* elevator stopped between two floor position */
-        {
-            if (me->status == 0) /* no more error exists */
-            {
-                TRAN(&Elevator_moveDown); /* go down to reach a level */
-            }
-        }
-        else /* elevator stopped in a floor position */
-        {
-            if ((me->status & ((uint8_t) ~(1 << me->currentFloor))) == 0) /* no more error and all door closed except current floor door that can be opened */
-            {
-                TRAN(&Elevator_ready);
-            }
-        }
-    }
-    }
-    return IGNORED();
+    return HANDLED();
 }
