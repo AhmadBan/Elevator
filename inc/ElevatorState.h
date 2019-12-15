@@ -8,11 +8,16 @@
 #define OVER_WEGHT 16
 #define OVER_TEMPERATURE 32
 
+#define UP_LIMIT_SWITCH 64
+#define DOWN_LIMIT_SWITCH 128
+
 typedef struct ElevatorState
 {
-    StateContext ancesstor; /* derive from BaseState */
-    uint8_t currentFloor;   /* indicates the current level that elevator stopped */
-    uint8_t status;         /*indicates that  elevator emergency variable event in bit */
+    StateContext ancesstor;  /* derive from BaseState */
+    uint8_t currentFloor;    /* indicates the elevator current floor */
+    uint8_t targetFloor;     /* indicates the elevator target floor */
+    uint8_t betweenTwoFloor; /* shows if elevator between two level */
+    uint8_t status;          /*indicates that  elevator emergency variable event in bit */
 
 } Elevator_t;
 

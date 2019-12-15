@@ -388,9 +388,14 @@
               <FilePath>.\src\main.c</FilePath>
             </File>
             <File>
-              <FileName>ElevatorStateHandlers.c</FileName>
+              <FileName>ElevatorStace.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src\ElevatorStateHandlers.c</FilePath>
+              <FilePath>.\src\ElevatorStace.c</FilePath>
+            </File>
+            <File>
+              <FileName>ElevatorEvent.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\ElevatorEvent.c</FilePath>
             </File>
           </Files>
         </Group>
