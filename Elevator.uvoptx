@@ -198,11 +198,11 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>2</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\src\ElevatorStace.c</PathWithFileName>
-      <FilenameWithoutPath>ElevatorStace.c</FilenameWithoutPath>
+      <PathWithFileName>.\src\ElevatorEvent.c</PathWithFileName>
+      <FilenameWithoutPath>ElevatorEvent.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -213,11 +213,31 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\src\ElevatorEvent.c</PathWithFileName>
-      <FilenameWithoutPath>ElevatorEvent.c</FilenameWithoutPath>
+      <PathWithFileName>.\src\ElevatorState.c</PathWithFileName>
+      <FilenameWithoutPath>ElevatorState.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>4</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\src\BaseState.c</PathWithFileName>
+      <FilenameWithoutPath>BaseState.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>::Board Support</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>1</RteFlg>
   </Group>
 
   <Group>

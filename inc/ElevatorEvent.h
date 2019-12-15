@@ -1,4 +1,8 @@
+#ifndef ELEVATOR_EVENT_H
+#define ELEVATOR_EVENT_H
+
 #include "./BaseEvent.h"
+#define MAILQUEUE_EVENTS 16
 
 enum ElevatorSignals
 {                             /* all signals for the Elevator FSM */
@@ -46,3 +50,4 @@ typedef struct DoorOpeneEvt
 } DoorOpenEvt_t;
 
 void ElevatorEvent_constructor(void);
+#endif

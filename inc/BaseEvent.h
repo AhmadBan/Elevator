@@ -1,3 +1,5 @@
+#ifndef BASE_EVENT_H
+#define BASE_EVENT_H
 #include "stdint.h"
 typedef uint8_t Signal_t;
 
@@ -15,3 +17,4 @@ enum ReservedSignals
 };
 
 void BaseEvent_constructor(void);
+#endif

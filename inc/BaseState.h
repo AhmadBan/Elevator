@@ -1,15 +1,17 @@
-#include "./ElevatorEvent.h"
+#ifndef BASE_STATE_H
+#define BASE_STATE_H
+#include "./BaseEvent.h"
 
 typedef uint8_t State;                                     /* status returned from a state-handler function */
 typedef State (*StateHandler)(void *me, Event_t const *e); // StateHandler pointer function typedef base
 typedef struct StateContextBase
 {                       /* Finite State Machine */
     StateHandler state; /* current active state */
-} StateContext;
+} StateContext_t;
 
 #define Context_constructor(this, init) ((this)->state = (init))
-void Context_init(StateContext *me, Event_t const *e);
-void Context_dispatch(StateContext *me, Event_t const *e);
+void Base_init(StateContext_t *me, Event_t const *e);
+void Base_dispatch(StateContext_t *me, Event_t const *e);
 
 #define EVT_HANDLED ((State)0)
 #define EVT_IGNORED ((State)1)
@@ -17,4 +19,5 @@ void Context_dispatch(StateContext *me, Event_t const *e);
 #define HANDLED() (EVT_HANDLED)
 #define IGNORED() (EVT_IGNORED)
 #define TRAN(target_) \
-    (((StateContext *)me)->state = (StateHandler)(target_), EVT_TRAN)
+    (((StateContext_t *)me)->state = (StateHandler)(target_), EVT_TRAN)
+#endif

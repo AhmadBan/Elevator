@@ -1,4 +1,8 @@
+#ifndef ELEVATOR_STATE_H
+#define ELEVATOR_STATE_H
+
 #include "./BaseState.h"
+#include "./ElevatorEvent.h"
 
 #define DOOR_OPEN_PARKING 1
 #define DOOR_OPEN_FIRST 2
@@ -13,7 +17,7 @@
 
 typedef struct ElevatorState
 {
-    StateContext ancesstor;    /* derive from BaseState */
+    StateContext_t ancesstor;  /* derive from BaseState */
     uint8_t currentFloor;      /* indicates the elevator current floor */
     uint8_t targetFloor;       /* indicates the elevator target floor */
     uint8_t betweenTwoFloor;   /* shows if elevator between two level */
@@ -27,3 +31,4 @@ State Elevator_initial(Elevator_t *me, Event_t const *e);   /* StateHandler to h
 State Elevator_ready(Elevator_t *me, Event_t const *e);     /* StateHandler to handle ready state */
 State Elevator_move(Elevator_t *me, Event_t const *e);      /* StateHandler to handle moveup state */
 State Elevator_emergency(Elevator_t *me, Event_t const *e); /* StateHandler to handle emergency state */
+#endif
