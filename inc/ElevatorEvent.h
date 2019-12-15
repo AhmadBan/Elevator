@@ -2,7 +2,7 @@
 #define ELEVATOR_EVENT_H
 
 #include "./BaseEvent.h"
-#define MAILQUEUE_EVENTS 16
+#define MAILQUEUE_EVENTS 5
 
 enum ElevatorSignals
 {                             /* all signals for the Elevator FSM */
@@ -18,6 +18,7 @@ enum ElevatorSignals
   OVERTEMPERATURE_SIG
 
 };
+
 typedef struct LimitSWEvt
 {
     Event_t ancestor;
@@ -48,6 +49,18 @@ typedef struct DoorOpeneEvt
     uint8_t floor;
     uint8_t status; //0 close 1 open
 } DoorOpenEvt_t;
+
+typedef struct HalSensorEvt
+{
+    Event_t ancestor;
+    uint8_t status; /* 0 means no OverTemperature 1 means OverTemperature */
+} HalSensorEvt_t;
+/**  
+ * Assign biggest size of all event as a constant size
+ * dynamic memory allocation of events 
+ **/
+#define EVENT_SIZE size_of(DoorOpenEvt_t)
+#define EVENT_TYPE DoorOpenEvt_t
 
 void ElevatorEvent_constructor(void);
 #endif

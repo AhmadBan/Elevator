@@ -295,11 +295,42 @@ State Elevator_emergency(Elevator_t *me, Event_t const *e)
         }
         else /* elevator stopped in a floor position */
         {
-            if (me->status & ((uint8_t) ~(1 << me->currentFloor)) == 0) /* no more error and all door closed except current floor door that can be opened */
+            if ((me->status & ((uint8_t) ~(1 << me->currentFloor))) == 0) /* no more error and all door closed except current floor door that can be opened */
             {
                 TRAN(&Elevator_ready);
             }
         }
     }
     return HANDLED();
+}
+
+//----------------------------------Constructor----------------
+State Elevator_costructor(Elevator_t *me,
+                         uint8_t currentFloor /* indicates the elevator current floor */
+)
+{
+
+    me->currentFloor = currentFloor;
+    me->targetFloor = currentFloor;
+
+    //me->status,me->betweenTwoFloor must be initialized by reading peripherals current state
+    me->status = 0;
+    me->betweenTwoFloor = 0;
+    me->directionMovement = 0;
+    if (me->status == 0)
+    {
+        if (me->betweenTwoFloor)
+        {
+            me->directionMovement = 2;
+            return TRAN(&Elevator_move);
+        }
+        else
+        {
+            return TRAN(&Elevator_ready);
+        }
+    }
+    else
+    {
+        return TRAN(&Elevator_emergency);
+    }
 }

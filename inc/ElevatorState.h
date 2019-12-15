@@ -25,7 +25,10 @@ typedef struct ElevatorState
     uint8_t directionMovement; /* Indicates Movement direction , 1 UP,2 DOWN and 0 STOP */
 } Elevator_t;
 
-void Elevator_costructor(Elevator_t *me, uint8_t currentfloor, uint8_t status); /* Constuctor to initialize context state object */
+/* Constuctor to initialize context state object */
+State Elevator_costructor(Elevator_t *me,
+                         uint8_t currentFloor /* indicates the elevator current floor */
+);
 
 State Elevator_initial(Elevator_t *me, Event_t const *e);   /* StateHandler to handle initialize state */
 State Elevator_ready(Elevator_t *me, Event_t const *e);     /* StateHandler to handle ready state */
