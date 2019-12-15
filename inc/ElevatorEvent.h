@@ -6,8 +6,7 @@ enum ElevatorSignals
 
   DOOR_SIG, /* Signal from parking door sensor opening */
 
-  UPLIMITSWITCH_SIG,   /* Signal from up limiter switch */
-  DOWNLIMITSWITCH_SIG, /* Signal from down limiter switch */
+  LIMITSWITCH_SIG, /* Signal from  limiter switch */
 
   HALSENSOR_SIG, /* Signal from HAL sensor */
 
@@ -15,6 +14,12 @@ enum ElevatorSignals
   OVERTEMPERATURE_SIG
 
 };
+typedef struct LimitSWEvt
+{
+    Event_t ancestor;
+    uint8_t status; /* 1 = UP Limit ,2 = DOWN Limit, 0 =None ,3 =both limit switch*/
+} LimitSWEvt_t;
+
 typedef struct OverWeightEvt
 {
     Event_t ancestor;

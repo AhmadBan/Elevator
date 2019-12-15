@@ -74,11 +74,13 @@ State Elevator_ready(Elevator_t *me, Event_t const *e)
             {
                 if ((me->currentFloor) > (me->targetFloor)) /* if target floor is lower than the currentFloor */
                 {
-                    return TRAN(&Elevator_moveDown);
+                    me->directionMovement = 2;
+                    return TRAN(&Elevator_move);
                 }
                 if ((me->currentFloor) < (me->targetFloor)) /* if target floor is Upper than the currentFloor */
                 {
-                    return TRAN(&Elevator_moveUp);
+                    me->directionMovement = 1;
+                    return TRAN(&Elevator_move);
                 }
             }
         }
@@ -127,22 +129,36 @@ State Elevator_ready(Elevator_t *me, Event_t const *e)
   *         that contains the extended event information and current event Signal .
   * @retval State: Status Handled,Ignored or Transient 
   */
-State Elevator_moveUp(Elevator_t *me, Event_t const *e)
+State Elevator_move(Elevator_t *me, Event_t const *e)
 {
     switch (e->sig)
     {
 
     case ENTRY_SIG:
-        /* implement here code for motor start to elevate up */
-        me->betweenTwoFloor = 1;
-        return HANDLED();
-
-    case UPLIMITSWITCH_SIG:
     {
-        me->status |= UP_LIMIT_SWITCH;
+        me->betweenTwoFloor = 1;
+        if (me->directionMovement == 1)
+        {
+            /* implement here code for motor start to elevate up */
+        }
+        else
+        {
+            /* implement here code for motor start to elevate down */
+        }
+        return HANDLED();
+    }
+    case LIMITSWITCH_SIG:
+    {
+        LimitSWEvt_t *event = (LimitSWEvt_t *)e;
+        if ((event->status & 1) == 1)
+        {
+            me->status |= UP_LIMIT_SWITCH;
+        }
+        if ((event->status & 2) == 2)
+            me->status |= DOWN_LIMIT_SWITCH;
+
         return TRAN(&Elevator_emergency);
     }
-
     case DOOR_SIG:
     {
 
@@ -194,97 +210,23 @@ State Elevator_moveUp(Elevator_t *me, Event_t const *e)
         }
     }
     case HALSENSOR_SIG:
-        if (++me->currentFloor == me->targetFloor)
+    {
+        if (me->directionMovement == 1)
         {
-            return TRAN(&Elevator_ready);
+            if (++me->currentFloor == me->targetFloor)
+            {
+                return TRAN(&Elevator_ready);
+            }
+        }
+        else
+        {
+            if (--me->currentFloor == me->targetFloor)
+            {
+                return TRAN(&Elevator_ready);
+            }
         }
         return HANDLED();
     }
-    return IGNORED();
-}
-
-/**
-  * @brief  State handler in movedown state
-  * @param  me: Pointer to a context structure
-  *         that contains the extended state information that need to be preserved .
-  * @param  e: Pointer to current event catched,
-  *         that contains the extended event information and current event Signal .
-  * @retval State: Status Handled,Ignored or Transient 
-  */
-State Elevator_moveDown(Elevator_t *me, Event_t const *e)
-{
-    switch (e->sig)
-    {
-
-    case ENTRY_SIG:
-        /* implement here code for start motor to go down */
-        me->betweenTwoFloor = 1;
-
-        return HANDLED();
-
-    case DOWNLIMITSWITCH_SIG:
-    {
-        me->status |= DOWN_LIMIT_SWITCH;
-        return TRAN(&Elevator_emergency);
-    }
-
-    case DOOR_SIG:
-    {
-        DoorOpenEvt_t *event = (DoorOpenEvt_t *)e;
-        /* *
-        * in this state since all doors are already closed a door signal means 
-        * a door is opened while moving up  but an external guard is added to 
-        * make sure if door is opened
-        * */
-
-        if (event->status == 1)
-        {
-            /* in doubt to stop motor immediately before doing anything else it might save a life so stop motor procedure might be implemented here */
-
-            me->status |= 1 << (event->floor); /* preserve status */
-            return TRAN(&Elevator_emergency);
-        }
-    }
-
-    case OVERWEIGHT_SIG:
-    {
-        OverWeightEvt_t *event = (OverWeightEvt_t *)e;
-        /* *
-        * in this state since assumed no overweight existed so overweight signal means 
-        * there is now an overweight but an external guard is added to make sure if 
-        * overweight exists.
-        * */
-        if (event->status == 1)
-        {
-            //add send warning by voice or display
-            /* in doubt to stop motor immediately before doing anything else it might save a life so stop motor procedure might be implemented here */
-
-            me->status |= OVER_WEGHT; /* preserve status */
-            return TRAN(&Elevator_emergency);
-        }
-    }
-    case OVERTEMPERATURE_SIG:
-    {
-        OverTemperatureEvt_t *event = (OverTemperatureEvt_t *)e;
-        /* *
-        * in this state since assumed no overtemperature existed so overtemperature signal means 
-        * there is now an overwtemperature but an external guard is added to make sure if 
-        * overtemperature exists.
-        * */
-        if (event->status == 1)
-        {
-            //add send warning by voice or display
-            me->status |= OVER_TEMPERATURE; /* preserve status */
-            return TRAN(&Elevator_emergency);
-        }
-    }
-    case HALSENSOR_SIG:
-
-        if (--me->currentFloor == me->targetFloor)
-        {
-            return TRAN(&Elevator_ready);
-        }
-        return HANDLED();
     }
     return IGNORED();
 }
@@ -302,9 +244,11 @@ State Elevator_emergency(Elevator_t *me, Event_t const *e)
     switch (e->sig)
     {
     case ENTRY_SIG:
+    {
         /* implement here code for motor to stop */
 
         return HANDLED();
+    }
 
     case DOOR_SIG:
     {
@@ -345,7 +289,8 @@ State Elevator_emergency(Elevator_t *me, Event_t const *e)
         {
             if (me->status == 0) /* no more error exists */
             {
-                TRAN(&Elevator_moveDown); /* go down to reach a level */
+                me->directionMovement = 2;
+                TRAN(&Elevator_move); /* go down to reach a level */
             }
         }
         else /* elevator stopped in a floor position */
