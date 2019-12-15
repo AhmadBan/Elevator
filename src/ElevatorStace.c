@@ -2,8 +2,11 @@
 
 /**
   * @brief  Initializes the Elevator starting state
-  * @param  Elevator_t: pointer to a context structure
-  *         that contains the extended state information and current state handler .
+  * @param  me: pointer to a context structure
+  *         that contains the extended state information and current state handler.
+  * @param  e: Pointer to current event catched,
+  *         that contains the extended event information and current event Signal 
+  *         not used here just to keep signature.
   * @retval state status Handled,Ignored or Transient 
   */
 State Elevator_initial(Elevator_t *me, Event_t const *e)
@@ -78,7 +81,6 @@ State Elevator_ready(Elevator_t *me, Event_t const *e)
                     return TRAN(&Elevator_moveUp);
                 }
             }
-            return IGNORED();
         }
 
         return IGNORED();
@@ -86,15 +88,33 @@ State Elevator_ready(Elevator_t *me, Event_t const *e)
 
     case OVERWEIGHT_SIG:
     {
-        //add send warning by voice or display
-        me->status |= OVER_WEGHT; /* preserve status */
-        return TRAN(&Elevator_emergency);
+        OverWeightEvt_t *event = (OverWeightEvt_t *)e;
+        /* *
+        * in this state since assumed no overweight existed so overweight signal means 
+        * there is now an overweight but an external guard is added to make sure if 
+        * overweight exists.
+        * */
+        if (event->status == 1)
+        {
+            //add send warning by voice or display
+            me->status |= OVER_WEGHT; /* preserve status */
+            return TRAN(&Elevator_emergency);
+        }
     }
     case OVERTEMPERATURE_SIG:
     {
-        //add send warning by voice or display
-        me->status |= OVER_TEMPERATURE; /* preserve status */
-        return TRAN(&Elevator_emergency);
+        OverTemperatureEvt_t *event = (OverTemperatureEvt_t *)e;
+        /* *
+        * in this state since assumed no overtemperature existed so overtemperature signal means 
+        * there is now an overwtemperature but an external guard is added to make sure if 
+        * overtemperature exists.
+        * */
+        if (event->status == 1)
+        {
+            //add send warning by voice or display
+            me->status |= OVER_TEMPERATURE; /* preserve status */
+            return TRAN(&Elevator_emergency);
+        }
     }
     }
     return IGNORED();

@@ -561,7 +561,7 @@ Removing Unused input sections from the image.
     Removing elevatorstace.o(i.Elevator_initial), (28 bytes).
     Removing elevatorstace.o(i.Elevator_moveDown), (172 bytes).
     Removing elevatorstace.o(i.Elevator_moveUp), (172 bytes).
-    Removing elevatorstace.o(i.Elevator_ready), (200 bytes).
+    Removing elevatorstace.o(i.Elevator_ready), (216 bytes).
     Removing rtx_conf_cm.o(i.__user_perthread_libspace), (44 bytes).
     Removing rtx_conf_cm.o(i._mutex_initialize), (44 bytes).
     Removing system_stm32f10x.o(.rev16_text), (4 bytes).
@@ -737,7 +737,7 @@ Removing Unused input sections from the image.
     Removing rt_time.o(i.rt_time_get), (12 bytes).
     Removing rt_membox.o(i._calloc_box), (30 bytes).
 
-179 unused section(s) (total 7172 bytes) removed from the image.
+179 unused section(s) (total 7188 bytes) removed from the image.
 
 ==============================================================================
 
