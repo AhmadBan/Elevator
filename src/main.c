@@ -4,6 +4,7 @@
 #include "DMA.h"
 #include "RCC.h"
 #include "EXTI.h"
+#include "UART.h"
 #include "..\inc\osObjects.h"
 
 static Elevator_t me;
@@ -11,8 +12,6 @@ osThreadId dispatchThread;
 osThreadDef(state_dispatch, osPriorityNormal, 1, 0);
 osMailQId qid_EventQueue; // mail queue id
 osMailQDef(EventQueue, MAILQUEUE_EVENTS, EVENT_TYPE);
-uint8_t txbuff[30] = {"Hello world"};
-uint8_t rxbuff[30];
 int main()
 {
 
@@ -22,10 +21,6 @@ int main()
 
 	/* System Clocks Configuration */
 	RCC_Configuration();
-
-	DMA_Tx_Configuration(txbuff, 30);
-	DMA_Rx_Configuration(rxbuff, 30);
-
 	/* Configure the GPIO ports */
 	GPIO_Configuration();
 	/* Configure the UART ports */
