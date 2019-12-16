@@ -23,6 +23,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 
+#include "main.h"
 #include "stm32f10x_it.h"
 #include "ElevatorEvent.h"
 #include "cmsis_os.h"
@@ -52,8 +53,9 @@ extern osMailQId qid_EventQueue;
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+__attribute ((noreturn)) void NMI_Handler(void)
 {
+	assert_failed((uint8_t*)"NMI_Handler", __LINE__);
 }
 
 /**
@@ -61,12 +63,10 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+__attribute ((noreturn)) void HardFault_Handler(void)
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+	 assert_failed((uint8_t*)"HardFault_Handler", __LINE__);
+  
 }
 
 /**
@@ -74,12 +74,10 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void MemManage_Handler(void)
+__attribute ((noreturn)) void MemManage_Handler(void)
 {
-  /* Go to infinite loop when Memory Manage exception occurs */
-  while (1)
-  {
-  }
+ 
+  assert_failed((uint8_t*)"MemManage_Handler", __LINE__);
 }
 
 /**
@@ -87,12 +85,9 @@ void MemManage_Handler(void)
   * @param  None
   * @retval None
   */
-void BusFault_Handler(void)
+__attribute ((noreturn)) void BusFault_Handler(void)
 {
-  /* Go to infinite loop when Bus Fault exception occurs */
-  while (1)
-  {
-  }
+  assert_failed((uint8_t*)"BusFault_Handler", __LINE__);
 }
 
 /**
@@ -100,12 +95,9 @@ void BusFault_Handler(void)
   * @param  None
   * @retval None
   */
-void UsageFault_Handler(void)
+__attribute ((noreturn)) void UsageFault_Handler(void)
 {
-  /* Go to infinite loop when Usage Fault exception occurs */
-  while (1)
-  {
-  }
+  assert_failed((uint8_t*)"UsageFault_Handler", __LINE__);
 }
 
 /**

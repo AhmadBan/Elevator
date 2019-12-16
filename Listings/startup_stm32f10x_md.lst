@@ -474,18 +474,18 @@ ARM Macro Assembler    Page 8
               00000400 
               00000200 
               00000000 
-Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
-ork --depend=.\objects\startup_stm32f10x_md.d -o.\objects\startup_stm32f10x_md.
-o -I.\RTE\Device\STM32F103RB -I.\RTE\_Target_1 -Id:\Users\Ahmad\AppData\Local\A
-rm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include -Id:\Users\Ahmad\AppData\Local\Arm\
-Packs\ARM\CMSIS\5.5.1\CMSIS\RTOS\RTX\INC -Id:\Users\Ahmad\AppData\Local\Arm\Pac
-ks\Keil\MDK-Middleware\7.8.0\Board -Id:\Users\Ahmad\AppData\Local\Arm\Packs\Kei
-l\STM32F1xx_DFP\2.1.0\Device\Include -Id:\Users\Ahmad\AppData\Local\Arm\Packs\K
-eil\STM32F1xx_DFP\2.1.0\Device\StdPeriph_Driver\inc -Id:\Users\Ahmad\AppData\Lo
-cal\Arm\Packs\Keil\STM32F1xx_DFP\2.1.0\RTE_Driver --predefine="__RTX SETA 1" --
-predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 528" --predefine=
-"_RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --list=.\listings\startup_stm3
-2f10x_md.lst RTE\Device\STM32F103RB\startup_stm32f10x_md.s
+Command Line: --16 --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=i
+nterwork --depend=.\objects\startup_stm32f10x_md.d -o.\objects\startup_stm32f10
+x_md.o -I.\RTE\Device\STM32F103RB -I.\RTE\_Target_1 -Id:\Users\Ahmad\AppData\Lo
+cal\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include -Id:\Users\Ahmad\AppData\Local
+\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\RTOS\RTX\INC -Id:\Users\Ahmad\AppData\Local\Ar
+m\Packs\Keil\MDK-Middleware\7.8.0\Board -Id:\Users\Ahmad\AppData\Local\Arm\Pack
+s\Keil\STM32F1xx_DFP\2.1.0\Device\Include -Id:\Users\Ahmad\AppData\Local\Arm\Pa
+cks\Keil\STM32F1xx_DFP\2.1.0\Device\StdPeriph_Driver\inc -Id:\Users\Ahmad\AppDa
+ta\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.1.0\RTE_Driver --predefine="__RTX SETA 
+1" --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 528" --prede
+fine="_RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --list=.\listings\startup
+_stm32f10x_md.lst RTE\Device\STM32F103RB\startup_stm32f10x_md.s
 
 
 

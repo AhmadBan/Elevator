@@ -12,6 +12,9 @@ osThreadId dispatchThread;
 osThreadDef(state_dispatch, osPriorityNormal, 1, 0);
 osMailQId qid_EventQueue; // mail queue id
 osMailQDef(EventQueue, MAILQUEUE_EVENTS, EVENT_TYPE);
+
+uint8_t testforzero[10]={1,2,3,4,5,6,7,8,9,10};
+
 int main()
 {
 
