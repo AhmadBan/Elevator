@@ -380,7 +380,7 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Source Group 1</GroupName>
+          <GroupName>Application</GroupName>
           <Files>
             <File>
               <FileName>main.c</FileName>
@@ -401,6 +401,41 @@
               <FileName>stm32f10x_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\stm32f10x_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>Elevetor_Mockup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Elevetor_Mockup.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Peripherals</GroupName>
+          <Files>
+            <File>
+              <FileName>GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\GPIO.c</FilePath>
+            </File>
+            <File>
+              <FileName>UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>EXTI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\EXTI.c</FilePath>
+            </File>
+            <File>
+              <FileName>RCC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\RCC.c</FilePath>
+            </File>
+            <File>
+              <FileName>DMA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\DMA.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -451,6 +486,12 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </component>
+      <component Cclass="Device" Cgroup="DMA" Cvendor="Keil" Cversion="1.2" condition="STM32F1xx CMSIS">
+        <package name="STM32F1xx_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="2.1.0"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
       <component Cclass="Device" Cgroup="GPIO" Cvendor="Keil" Cversion="1.2" condition="STM32F1xx CMSIS">
         <package name="STM32F1xx_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="2.1.0"/>
         <targetInfos>
@@ -458,6 +499,12 @@
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS">
+        <package name="STM32F1xx_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="2.1.0"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="StdPeriph Drivers" Csub="DMA" Cvendor="Keil" Cversion="3.5.0" condition="STM32F1xx STDPERIPH RCC">
         <package name="STM32F1xx_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="2.1.0"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
@@ -482,6 +529,12 @@
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="StdPeriph Drivers" Csub="RCC" Cvendor="Keil" Cversion="3.5.0" condition="STM32F1xx STDPERIPH">
+        <package name="STM32F1xx_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="2.1.0"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="StdPeriph Drivers" Csub="USART" Cvendor="Keil" Cversion="3.5.0" condition="STM32F1xx STDPERIPH RCC">
         <package name="STM32F1xx_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="2.1.0"/>
         <targetInfos>
           <targetInfo name="Target 1"/>

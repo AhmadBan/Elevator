@@ -136,7 +136,7 @@ void EXTI0_IRQHandler(void)
     pMail = osMailAlloc(qid_EventQueue, 0);
     if (pMail)
     {
-      pMail->ancestor.sig = LIMITSWITCH_SIG;
+      pMail->ancestor.sig = FLOORBUTTON_SIG;
       pMail->targetFloor = 0;
       osMailPut(qid_EventQueue, pMail);
     }
@@ -160,7 +160,7 @@ void EXTI1_IRQHandler(void)
     pMail = osMailAlloc(qid_EventQueue, 0);
     if (pMail)
     {
-      pMail->ancestor.sig = LIMITSWITCH_SIG;
+      pMail->ancestor.sig = FLOORBUTTON_SIG;
       pMail->targetFloor = 1;
 
       osMailPut(qid_EventQueue, pMail);
@@ -183,7 +183,7 @@ void EXTI2_IRQHandler(void)
   pMail = osMailAlloc(qid_EventQueue, 0);
   if (pMail)
   {
-    pMail->ancestor.sig = LIMITSWITCH_SIG;
+    pMail->ancestor.sig = FLOORBUTTON_SIG;
     pMail->targetFloor = 2;
 
     osMailPut(qid_EventQueue, pMail);
@@ -205,7 +205,7 @@ void EXTI3_IRQHandler(void)
   pMail = osMailAlloc(qid_EventQueue, 0);
   if (pMail)
   {
-    pMail->ancestor.sig = LIMITSWITCH_SIG;
+    pMail->ancestor.sig = FLOORBUTTON_SIG;
     pMail->targetFloor = 3;
 
     osMailPut(qid_EventQueue, pMail);

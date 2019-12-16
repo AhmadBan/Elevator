@@ -1,24 +1,41 @@
 #define osObjectsPublic // define objects in main module
 #include "main.h"
-#include "..\inc\Board_LED.h"
-#include "..\inc\ElevatorEvent.h"
-#include "..\inc\ElevatorState.h"
+#include "GPIO.h"
+#include "DMA.h"
+#include "RCC.h"
+#include "EXTI.h"
 #include "..\inc\osObjects.h"
-#include "stm32f10x.h"
 
 static Elevator_t me;
 osThreadId dispatchThread;
 osThreadDef(state_dispatch, osPriorityNormal, 1, 0);
 osMailQId qid_EventQueue; // mail queue id
 osMailQDef(EventQueue, MAILQUEUE_EVENTS, EVENT_TYPE);
-
+uint8_t txbuff[30] = {"Hello world"};
+uint8_t rxbuff[30];
 int main()
 {
 
 	osKernelInitialize(); // initialize CMSIS-RTOS
 
 	//Init Peripherals
-	EXTI_Config();
+
+	/* System Clocks Configuration */
+	RCC_Configuration();
+
+	DMA_Tx_Configuration(txbuff, 30);
+	DMA_Rx_Configuration(rxbuff, 30);
+
+	/* Configure the GPIO ports */
+	GPIO_Configuration();
+	/* Configure the UART ports */
+	UART_Configuration();
+	while (DMA_GetFlagStatus(USARTz_Tx_DMA_FLAG) == RESET)
+	{
+	}
+	print((uint8_t *)"uart config", 12);
+	EXTI_Configuration();
+
 	//Construct state context and events
 	Elevator_costructor(&me, 0);
 
@@ -65,61 +82,4 @@ int Init_MailQueue(void)
 		} // Mail Queue object not created, handle failure
 	}
 	return (0);
-}
-
-void EXTI_Config(void)
-{
-	GPIO_InitTypeDef GPIO_InitStructure;
-	EXTI_InitTypeDef EXTI_InitStructure;
-	NVIC_InitTypeDef NVIC_InitStructure;
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
-
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-
-	/* Configure PA.00 pin as input floating */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-	/* Enable AFIO clock */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-
-	/* Connect EXTI0 Line to PA.00 pin */
-	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource0 | GPIO_PinSource1 | GPIO_PinSource2 | GPIO_PinSource3);
-
-	/* Configure EXTI0-3 line */
-	/* BUTTON PARKING,1 2,3,4 */
-
-	EXTI_InitStructure.EXTI_Line = EXTI_Line0 | EXTI_Line1 | EXTI_Line2 | EXTI_Line3;
-	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
-	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-	EXTI_Init(&EXTI_InitStructure);
-	/** LIMIT UP, LIMIT DOWN, OVERWEIGHT, OVERTEMPERATURE , HALSENSOR 
-	 *	DOOR= PARKING, 1, 2, 3
-	 **/
-
-	EXTI_InitStructure.EXTI_Line = 0xfff0;
-	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
-	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-	EXTI_Init(&EXTI_InitStructure);
-
-	/* Enable and set EXTI0 Interrupt to the lowest priority */
-	NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x02;
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&NVIC_InitStructure);
-	NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;
-	NVIC_Init(&NVIC_InitStructure);
-	NVIC_InitStructure.NVIC_IRQChannel = EXTI2_IRQn;
-	NVIC_Init(&NVIC_InitStructure);
-	NVIC_InitStructure.NVIC_IRQChannel = EXTI3_IRQn;
-	NVIC_Init(&NVIC_InitStructure);
-	NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
-	NVIC_Init(&NVIC_InitStructure);
-	NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
-	NVIC_Init(&NVIC_InitStructure);
-	NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
-	NVIC_Init(&NVIC_InitStructure);
 }
