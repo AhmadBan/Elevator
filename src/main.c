@@ -20,12 +20,14 @@ int main()
 
 	osKernelInitialize(); // initialize CMSIS-RTOS
 
-	//Init Peripherals
-
+	/* Init System Clock */
+	Clock_Configuration();
 	/* System Clocks Configuration */
 	RCC_Configuration();
 	/* Configure the GPIO ports */
 	GPIO_Configuration();
+	/* Configure the EXTI */
+	EXTI_Configuration();
 	/* Configure the UART ports */
 	UART_Configuration();
 	while (DMA_GetFlagStatus(USARTz_Tx_DMA_FLAG) == RESET)
