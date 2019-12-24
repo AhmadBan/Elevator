@@ -4,7 +4,7 @@ This is an open source implementation of an elevator which I wish to develop usi
 
 the initial UML model presented as follows.
 
-![GitHub Logo](/UML.svg)
+![GitHub Logo](/UML.PNG)
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
