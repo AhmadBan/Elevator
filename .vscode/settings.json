@@ -3,6 +3,7 @@
         "osobjects.h": "c",
         "stm32f10x.h": "c",
         "system_stm32f10x.h": "c",
-        "board_led.h": "c"
+        "board_led.h": "c",
+        "elevatorevent.h": "c"
     }
 }
