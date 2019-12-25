@@ -301,7 +301,7 @@ void EXTI9_5_IRQHandler(void)
 
   if (EXTI_GetITStatus(EXTI_Line9) != RESET)
   {
-    DoorOpenEvt_t *pMail = 0; /* Parking door Interrupt*/
+    DoorEvt_t *pMail = 0; /* Parking door Interrupt*/
     pMail = osMailAlloc(qid_EventQueue, 0);
     if (pMail)
     {
@@ -318,7 +318,7 @@ void EXTI10_15_IRQHandler(void)
 
   if (EXTI_GetITStatus(EXTI_Line10) != RESET)
   {
-    DoorOpenEvt_t *pMail = 0; /* First door Interrupt*/
+    DoorEvt_t *pMail = 0; /* First door Interrupt*/
     pMail = osMailAlloc(qid_EventQueue, 0);
     if (pMail)
     {
@@ -332,7 +332,7 @@ void EXTI10_15_IRQHandler(void)
 
   if (EXTI_GetITStatus(EXTI_Line11) != RESET)
   {
-    DoorOpenEvt_t *pMail = 0; /* Second door Interrupt*/
+    DoorEvt_t *pMail = 0; /* Second door Interrupt*/
     pMail = osMailAlloc(qid_EventQueue, 0);
     if (pMail)
     {
@@ -346,7 +346,7 @@ void EXTI10_15_IRQHandler(void)
 
   if (EXTI_GetITStatus(EXTI_Line12) != RESET)
   {
-    DoorOpenEvt_t *pMail = 0; /* Third door Interrupt*/
+    DoorEvt_t *pMail = 0; /* Third door Interrupt*/
     pMail = osMailAlloc(qid_EventQueue, 0);
     if (pMail)
     {

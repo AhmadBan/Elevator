@@ -43,12 +43,12 @@ typedef struct FloorBtnEvt
     uint8_t targetFloor;
 } FloorBtnEvt_t;
 
-typedef struct DoorOpeneEvt
+typedef struct DoorEvt
 {
     Event_t ancestor;
     uint8_t floor;
     uint8_t status; //0 close 1 open
-} DoorOpenEvt_t;
+} DoorEvt_t;
 
 typedef struct HalSensorEvt
 {
@@ -59,8 +59,8 @@ typedef struct HalSensorEvt
  * Assign biggest size of all event as a constant size
  * dynamic memory allocation of events 
  **/
-#define EVENT_SIZE size_of(DoorOpenEvt_t)
-#define EVENT_TYPE DoorOpenEvt_t
+#define EVENT_SIZE size_of(DoorEvt_t)
+#define EVENT_TYPE DoorEvt_t
 
 void ElevatorEvent_constructor(void);
 #endif

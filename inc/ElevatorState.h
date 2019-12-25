@@ -4,12 +4,50 @@
 #include "./BaseState.h"
 #include "./ElevatorEvent.h"
 
+typedef enum {
+	DOOR_CLOSE=0,
+	DOOR_OPEN
+}DoorState_t;
+
+typedef enum{
+	RESET=0,
+	SET
+}flag_t;
+
+typedef enum{
+	NOT_OVERTEMPERATURE=0,
+	OVERTEMPERATURE
+}Overtemperatur_t;
+
+typedef enum{
+	NOT_OVERWEIGHT = 0,
+	OVERWEIGHT
+}Overweight_t;
+
+
+typedef enum{
+	PARKING_FLOOR=0,
+	FIRST_FLOOR,
+	SECOND_FLOOR,
+	THIRD_FLOOR
+}Floor_t;
+
+typedef enum{
+	STOP=0,
+	UP_DIRECTION = 1,
+	DOWN_DIRECTION=2
+	
+}Direction_t;
+
+#define TRUE  1
+#define FALSE 0
+
 #define DOOR_OPEN_PARKING 1
 #define DOOR_OPEN_FIRST 2
 #define DOOR_OPEN_SECOND 4
 #define DOOR_OPEN_THIRD 8
 
-#define OVER_WEGHT 16
+#define OVER_WEIGHT 16
 #define OVER_TEMPERATURE 32
 
 #define UP_LIMIT_SWITCH 64

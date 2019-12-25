@@ -48,7 +48,14 @@ State Elevator_ready(Elevator_t *me, Event_t const *e)
         if ((me->currentFloor) != (event->targetFloor))
         {
             me->targetFloor = event->targetFloor;
-            /* implement code to close door */
+			if (me->status == 0){
+				if (me->targetFloor > me->currentFloor)
+					me->directionMovement = UP_DIRECTION;
+				else
+					me->directionMovement = DOWN_DIRECTION;
+				return TRAN(&Elevator_move);
+			}
+			/* implement code to close door */
 
             return HANDLED();
         }
@@ -58,7 +65,7 @@ State Elevator_ready(Elevator_t *me, Event_t const *e)
 
     case DOOR_SIG:
     {
-        DoorOpenEvt_t *event = (DoorOpenEvt_t *)e;
+        DoorEvt_t *event = (DoorEvt_t *)e;
         if (event->status == 1) /* a door is opened */
         {
             me->status |= 1 << (event->floor);    /* preserve status */
@@ -74,12 +81,12 @@ State Elevator_ready(Elevator_t *me, Event_t const *e)
             {
                 if ((me->currentFloor) > (me->targetFloor)) /* if target floor is lower than the currentFloor */
                 {
-                    me->directionMovement = 2;
+                    me->directionMovement = DOWN_DIRECTION;
                     return TRAN(&Elevator_move);
                 }
                 if ((me->currentFloor) < (me->targetFloor)) /* if target floor is Upper than the currentFloor */
                 {
-                    me->directionMovement = 1;
+                    me->directionMovement = UP_DIRECTION;
                     return TRAN(&Elevator_move);
                 }
             }
@@ -99,7 +106,7 @@ State Elevator_ready(Elevator_t *me, Event_t const *e)
         if (event->status == 1)
         {
             //add send warning by voice or display
-            me->status |= OVER_WEGHT; /* preserve status */
+            me->status |= OVER_WEIGHT; /* preserve status */
             return TRAN(&Elevator_emergency);
         }
     }
@@ -162,7 +169,7 @@ State Elevator_move(Elevator_t *me, Event_t const *e)
     case DOOR_SIG:
     {
 
-        DoorOpenEvt_t *event = (DoorOpenEvt_t *)e;
+        DoorEvt_t *event = (DoorEvt_t *)e;
         /* *
         * in this state since all doors are already closed a door signal means 
         * a door is opened while moving up  but an external guard is added to 
@@ -190,7 +197,7 @@ State Elevator_move(Elevator_t *me, Event_t const *e)
         if (event->status == 1)
         {
             //add send warning by voice or display
-            me->status |= OVER_WEGHT; /* preserve status */
+            me->status |= OVER_WEIGHT; /* preserve status */
             return TRAN(&Elevator_emergency);
         }
     }
@@ -252,7 +259,7 @@ State Elevator_emergency(Elevator_t *me, Event_t const *e)
 
     case DOOR_SIG:
     {
-        DoorOpenEvt_t *event = (DoorOpenEvt_t *)e;
+        DoorEvt_t *event = (DoorEvt_t *)e;
         if (event->status == 1) /* a door is opened so stay in current position */
         {
             me->status |= 1 << (event->floor); /* preserve status */
@@ -267,11 +274,11 @@ State Elevator_emergency(Elevator_t *me, Event_t const *e)
         OverWeightEvt_t *event = (OverWeightEvt_t *)e;
         if (event->status == 1)
         {                             /* elevator overweighted */
-            me->status |= OVER_WEGHT; /* set overweight bit */
+            me->status |= OVER_WEIGHT; /* set overweight bit */
             return HANDLED();
         }
         /* no more overweight but not returned to check further at the end of switch  */
-        me->status &= ~OVER_WEGHT; /* clear overweight bit */
+        me->status &= ~OVER_WEIGHT; /* clear overweight bit */
     }
     case OVERTEMPERATURE_SIG:
     {
