@@ -1,5 +1,5 @@
-#include "BaseState.h"
-#include "ElevatorEvent.h"
+#include "../inc/BaseState.h"
+#include "../inc/ElevatorEvent.h"
 
 Event_t exitEvt, entryEvt;
 void Base_init(StateContext_t *me, Event_t const *e)

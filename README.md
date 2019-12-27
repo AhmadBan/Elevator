@@ -16,9 +16,9 @@ if Elevator is stopped in normal state it is in "Ready" state and in this state 
 
 If elevator is moving, then it is in "Move" state. 
 
-If elevator detects any malfunctions by sensors, then it transients from any state to "Emergency" state. In this state elevator stops working until all sensors shows normal condition.
+If elevator detects any malfunctions by sensors, then it transients from any state to "Emergency" state. In this state elevator stops working until all sensors show normal condition.
 
-These are main initial states and in future states may increase.
+These are 3 main initial states and in future it may increases.
 The initial UML model presented as follows.
 
 ![Elevator UML](/uml.png)
@@ -26,10 +26,10 @@ The initial UML model presented as follows.
 
 
 ## Elevator sensors
-Elevator has 4 manual doors in each floor. A sensor attached to each door and shows if door is open or not.
-(Almost all elevator has another automatic door in passenger cabin which have its own sensor and controlled by system, currently this door is ignored but it can be added in future)
+Elevator has 4 manual doors in each floor. A sensor attached to each door and shows if the door is open or not.
+(Almost all elevator has another automatic door in passenger cabin which has its own sensor and controlled by system, currently this door is ignored but it can be added in future)
 
-Each floor has a push button in order to send a request for elevator when it is in different floors. Also These push buttons are connected to buttons in cabin correspondingly. (I assumed here that these buttons are connected to each other e.g. "2" button in cabin is connected to 2 button in floor 2 next to door and it is true for some elevator)
+Each floor has a push button in order to send a request for elevator when it is in different floors. Also These push buttons are connected to buttons in cabin correspondingly. (I assumed here that these buttons are connected to each other e.g. "2" button in cabin is connected to "2" button located in second floor and  actually some elevator is wired like that)
 
 There is a hal sensor placed in top of cabin that points to guidance rail. Also there are magnets located in guidance rail corresponding to each floor. When hal sensor meets Magnets then elevator knows it reaches a new floor so if it is target floor it stops and if it is not it update its position. (Usually elevators use 2 speed stop which means hal when hal sensors detects first magnet it reduces speed until it detects the second magnet to completely stop. They either use simple Delta-Star circuit or in more advanced cases a 3-phase inverter is used to decrease speed softly and linearly. this way is not yet used here)
 

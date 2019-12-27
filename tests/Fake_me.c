@@ -1,6 +1,6 @@
 
-#include "Fake_me.h"
-#include "ElevatorState.h"
+#include "./INC/Fake_me.h"
+#include "../inc/ElevatorState.h"
 
 Elevator_t fakeMe;
 

@@ -9,10 +9,7 @@ typedef enum {
 	DOOR_OPEN
 }DoorState_t;
 
-typedef enum{
-	RESET=0,
-	SET
-}flag_t;
+
 
 typedef enum{
 	NOT_OVERTEMPERATURE=0,

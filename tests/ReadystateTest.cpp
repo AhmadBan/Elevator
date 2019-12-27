@@ -5,7 +5,7 @@ extern "C"
 	/*
 	* You can add your c-only include files here
 	*/
-#include "Fake_me.h"
+#include "./INC/Fake_me.h"
 }
 
 TEST_GROUP(ReadyState)

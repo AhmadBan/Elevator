@@ -1,7 +1,10 @@
 
-#include "ElevatorState.h"
+#include "../../inc/ElevatorState.h"
 
-
+typedef enum{
+	RESET = 0,
+	SET
+}flag_t;
 
 void FakeMe_Create(void);
 Elevator_t GetMe(void);

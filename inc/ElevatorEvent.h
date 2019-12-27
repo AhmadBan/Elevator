@@ -18,6 +18,10 @@ enum ElevatorSignals
   OVERTEMPERATURE_SIG
 
 };
+typedef enum {
+	NOT_DETECTED=0,
+	DETECTED
+}HalSensor_t;
 
 typedef struct LimitSWEvt
 {
@@ -53,7 +57,7 @@ typedef struct DoorEvt
 typedef struct HalSensorEvt
 {
     Event_t ancestor;
-    uint8_t status; /* 0 means no OverTemperature 1 means OverTemperature */
+    uint8_t status; /* 0 means not detected, 1 means Detected */
 } HalSensorEvt_t;
 /**  
  * Assign biggest size of all event as a constant size
