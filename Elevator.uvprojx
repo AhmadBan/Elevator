@@ -398,24 +398,29 @@
               <FilePath>.\src\Events.c</FilePath>
             </File>
             <File>
-              <FileName>dma.c</FileName>
+              <FileName>ReadyState.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\RTE\Device\STM32F407VGTx\STCubeGenerated\Src\dma.c</FilePath>
+              <FilePath>.\src\ReadyState.c</FilePath>
             </File>
             <File>
-              <FileName>gpio.c</FileName>
+              <FileName>EmergencyState.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\RTE\Device\STM32F407VGTx\STCubeGenerated\Src\gpio.c</FilePath>
+              <FilePath>.\src\EmergencyState.c</FilePath>
             </File>
             <File>
-              <FileName>tim.c</FileName>
+              <FileName>MoveState.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\RTE\Device\STM32F407VGTx\STCubeGenerated\Src\tim.c</FilePath>
+              <FilePath>.\src\MoveState.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Threads</GroupName>
+          <Files>
             <File>
-              <FileName>usart.c</FileName>
+              <FileName>Threads.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\RTE\Device\STM32F407VGTx\STCubeGenerated\Src\usart.c</FilePath>
+              <FilePath>.\src\Threads.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -440,12 +445,27 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Threads</GroupName>
+          <GroupName>Peripherals</GroupName>
           <Files>
             <File>
-              <FileName>Threads.c</FileName>
+              <FileName>usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src\Threads.c</FilePath>
+              <FilePath>.\RTE\Device\STM32F407VGTx\STCubeGenerated\Src\usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\RTE\Device\STM32F407VGTx\STCubeGenerated\Src\tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\RTE\Device\STM32F407VGTx\STCubeGenerated\Src\gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\RTE\Device\STM32F407VGTx\STCubeGenerated\Src\dma.c</FilePath>
             </File>
           </Files>
         </Group>

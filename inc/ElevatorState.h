@@ -61,9 +61,7 @@ typedef struct ElevatorState
 } Elevator_t;
 
 /* Constuctor to initialize context state object */
-State Elevator_costructor(Elevator_t *me,
-                         uint8_t currentFloor /* indicates the elevator current floor */
-);
+void Elevator_costructor(Elevator_t *me);
 
 State Elevator_initial(Elevator_t *me, Event_t const *e);   /* StateHandler to handle initialize state */
 State Elevator_ready(Elevator_t *me, Event_t const *e);     /* StateHandler to handle ready state */

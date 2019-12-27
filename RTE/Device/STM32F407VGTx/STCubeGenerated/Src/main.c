@@ -111,7 +111,7 @@ osKernelInitialize();
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
 	//Construct state context and events
-	Elevator_costructor(&me, 0);
+  Elevator_costructor(&me);
 
 	// Init and create event queue
 	Init_MailQueue();
