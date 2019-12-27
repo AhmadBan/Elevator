@@ -36,6 +36,8 @@ State Elevator_initial(Elevator_t *me, Event_t const *e)
 //----------------------------------Constructor----------------
 void Elevator_costructor(Elevator_t *me)
 {
+	Event_t e;
+	e.sig=ENTRY_SIG;
   //this part is under construction
   me->currentFloor = 0;
   me->targetFloor = 0;
@@ -71,7 +73,7 @@ void Elevator_costructor(Elevator_t *me)
   if (HAL_GPIO_ReadPin(DownLimitSwitch_GPIO_Port, DownLimitSwitch_Pin) == SET)/* Check if Down limit switch is activated or not */
     me->status |= DOWN_LIMIT_SWITCH;
 
-  me->ancesstor.state = (StateHandler)Elevator_initial;/*  Initialize StateHandler function */
+ ((StateContext_t *)me)->state = (StateHandler)Elevator_initial;/*  Initialize StateHandler function */
 
-  Base_dispatch((StateContext_t *)&me, (void *)0); /* process Initialize StateHandler */
+  Base_dispatch((StateContext_t *)me, &e); /* process Initialize StateHandler */
 }
