@@ -70,6 +70,8 @@ State Elevator_emergency(Elevator_t *me, Event_t const *e)
             }
         }
     }
+		
+		
     return HANDLED();
 }
 

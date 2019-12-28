@@ -1,6 +1,7 @@
-
+#ifndef FAKE_ME_H
+#define FAKE_ME_H
 #include "../../inc/ElevatorState.h"
-
+#include "../../inc/ElevatorEvent.h"
 typedef enum{
 	RESET = 0,
 	SET
@@ -14,4 +15,6 @@ void UpdateStatus(uint8_t flag,flag_t act);
 void UpdateTarget(uint8_t target);
 void UpdateCurrentFloor(uint8_t current);
 void UpdateDirection(uint8_t dir);
+
 void MakeFakeCondition(uint8_t currentFloor, uint8_t targetFloor, uint8_t status, flag_t act, uint8_t btf, uint8_t dir);
+#endif

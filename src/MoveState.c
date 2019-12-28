@@ -16,7 +16,7 @@ State Elevator_move(Elevator_t *me, Event_t const *e)
     case ENTRY_SIG:
     {
         me->betweenTwoFloor = 1;
-        if (me->directionMovement == 1)
+        if (me->directionMovement == DOWN_DIRECTION)
         {
             /* implement here code for motor start to elevate up */
         }

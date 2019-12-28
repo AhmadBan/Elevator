@@ -1,79 +1,47 @@
 #include "../inc/ElevatorState.h"
-#include "main.h"
-#include "stm32f4xx_hal.h"
-
-/**
-  * @brief  Initializes the Elevator starting state
-  * @param  me: pointer to a context structure
-  *         that contains the extended state information and current state handler.
-  * @param  e: Pointer to current event catched,
-  *         that contains the extended event information and current event Signal 
-  *         not used here just to keep signature.
-  * @retval state status Handled,Ignored or Transient 
-  */
-State Elevator_initial(Elevator_t *me, Event_t const *e)
-{
-  (void)e;
-
-  if (me->status == 0)
-  {
-    if (me->betweenTwoFloor)
-    {
-      me->directionMovement = DOWN_DIRECTION;
-      return TRAN(&Elevator_move);
-    }
-    else
-    {
-      return TRAN(&Elevator_ready);
-    }
-  }
-  else
-  {
-    return TRAN(&Elevator_emergency);
-  }
-}
+#include "../inc/ElevatorInterface.h"
+enum{
+	RESET = 0,
+	SET
+};
 
 //----------------------------------Constructor----------------
 void Elevator_costructor(Elevator_t *me)
 {
-	Event_t e;
-	e.sig=ENTRY_SIG;
-  //this part is under construction
-  me->currentFloor = 0;
-  me->targetFloor = 0;
-  /*------------------------------*/
+	Initial_State_t cb_me = { 0 };
 
-  /* Initiialize to zero */
-  me->directionMovement = 0;
-  me->status = 0;
+	//this part is under construction
+	me->currentFloor = 0;
+	me->targetFloor = 0;
+	/*------------------------------*/
 
-  /* Read Sensors to initialize state attributes */
-  if (HAL_GPIO_ReadPin(HalSensor_GPIO_Port, HalSensor_Pin) == SET)
-    me->betweenTwoFloor = RESET;
-  else
-    me->betweenTwoFloor = SET;
+	/* Initiialize to zero */
+	me->directionMovement = 0;
+	me->status = 0;
 
-  if (HAL_GPIO_ReadPin(DoorParking_GPIO_Port, DoorParking_Pin) == SET)/* Check if Parking Door is open or not */
-    me->status |= DOOR_OPEN_PARKING;
-  if (HAL_GPIO_ReadPin(DoorFirstFloor_GPIO_Port, DoorFirstFloor_Pin) == SET)/* Check if First floor Door is open or not */
-    me->status |= DOOR_OPEN_FIRST;
-  if (HAL_GPIO_ReadPin(DoorSecondFloor_GPIO_Port, DoorSecondFloor_Pin) == SET)/* Check if Second floor Door is open or not */
-    me->status |= DOOR_OPEN_SECOND;
-  if (HAL_GPIO_ReadPin(DoorThirdFloor_GPIO_Port, DoorThirdFloor_Pin) == SET)/* Check if Third floor Door is open or not */
-    me->status |= DOOR_OPEN_THIRD;
+	//call back that will be filled by user into cb_me variable based on hardware used
+	ctor_callback(&cb_me);
+	if (cb_me.hal_sensor_state == NOT_DETECTED)
+		me->betweenTwoFloor = SET;
+	if (cb_me.Up_Limit_Switch_State == ACTIVATED)
+		me->status |= UP_LIMIT_SWITCH;
+	if (cb_me.Down_Limit_Switch_State == ACTIVATED)
+		me->status |= DOWN_LIMIT_SWITCH;
+	if (cb_me.Parking_Door_State == DOOR_OPEN)
+		me->status |= DOOR_OPEN_PARKING;
+	if (cb_me.First_Door_State == DOOR_OPEN)
+		me->status |= DOOR_OPEN_FIRST;
+	if (cb_me.Second_Door_State == DOOR_OPEN)
+		me->status |= DOOR_OPEN_SECOND;
+	if (cb_me.Third_Door_State == DOOR_OPEN)
+		me->status |= DOOR_OPEN_THIRD;
+	if (cb_me.Over_Temperature_state == ACTIVATED)
+		me->status |= OVER_TEMPERATURE;
+	if (cb_me.Over_Weight_State == ACTIVATED)
+		me->status |= OVER_WEIGHT;
 
-  if (HAL_GPIO_ReadPin(Overtemperature_GPIO_Port, Overtemperature_Pin) == SET)/* Check if Over Temperature sensor is activated or not */
-    me->status |= OVER_TEMPERATURE;
-  if (HAL_GPIO_ReadPin(OverWeight_GPIO_Port, OverWeight_Pin) == SET)/* Check if Over Weight sensor is activated or not */
-    me->status |= OVER_WEIGHT;
 
-  if (HAL_GPIO_ReadPin(UpLimitSwitch_GPIO_Port, UpLimitSwitch_Pin) == SET)/* Check if Up limit switch is activated or not */
-    me->status |= UP_LIMIT_SWITCH;
+	((StateContext_t *)me)->state = (StateHandler)Elevator_initial;/*  Initialize StateHandler function */
 
-  if (HAL_GPIO_ReadPin(DownLimitSwitch_GPIO_Port, DownLimitSwitch_Pin) == SET)/* Check if Down limit switch is activated or not */
-    me->status |= DOWN_LIMIT_SWITCH;
-
- ((StateContext_t *)me)->state = (StateHandler)Elevator_initial;/*  Initialize StateHandler function */
-
-  Base_dispatch((StateContext_t *)me, &e); /* process Initialize StateHandler */
+	Base_dispatch((StateContext_t *)me, (void*)0); /* process Initialize StateHandler */
 }

@@ -30,6 +30,18 @@
     <ClCompile Include="..\..\src\ElevatorState.c">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\EmergencyState.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ReadyState.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\MoveState.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\InitialState.c">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

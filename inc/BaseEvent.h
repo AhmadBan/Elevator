@@ -9,7 +9,7 @@ typedef struct EventTag
 } Event_t;
 
 enum ReservedSignals
-{
+{	EMPTY_SIG=0,
     ENTRY_SIG = 1, /* signal for coding entry actions */
     EXIT_SIG,      /* signal for coding exit actions */
     INIT_SIG,      /* signal for coding initial transitions */

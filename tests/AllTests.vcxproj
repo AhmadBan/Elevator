@@ -94,7 +94,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>D:\ARM interview\Elevator\tests\INC;$(CPPUTEST_HOME)/include;$(CPPUTEST_HOME)/include/Platforms/VisualCpp;D:\ARM interview\Elevator\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\RTE\Device\STM32F407VGTx\STCubeGenerated\Inc;.\RTE\Device\STM32F407VGTx\STCubeGenerated\Drivers\STM32F4xx_HAL_Driver\Inc;.\inc;.\tests\INC;$(CPPUTEST_HOME)/include;$(CPPUTEST_HOME)/include/Platforms/VisualCpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -134,7 +134,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\tests\AllTests.cpp" />
+    <ClCompile Include="commonTest.cpp" />
+    <ClCompile Include="EmergencystateTest.cpp" />
+    <ClCompile Include="Fake_event.c" />
     <ClCompile Include="Fake_me.c" />
+    <ClCompile Include="MovestateTest.cpp" />
     <ClCompile Include="ReadystateTest.cpp" />
   </ItemGroup>
   <ItemGroup>

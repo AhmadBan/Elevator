@@ -1,11 +1,13 @@
 #include "CppUTest/TestHarness.h"
-
+#include "INC/commonTest.h"
 extern "C"
 {
 	/*
 	* You can add your c-only include files here
 	*/
 #include "./INC/Fake_me.h"
+#include "./INC/Fake_event.h"
+
 }
 
 TEST_GROUP(ReadyState)
@@ -21,54 +23,11 @@ TEST_GROUP(ReadyState)
 	}
 };
 
-Event_t MakeanEvent(Signal_t Signal){
-	Event_t e;
-	e.sig = Signal ;
-	return e;
-}
 
-DoorEvt MakeaDoorEvent( Floor_t floor, DoorState_t status){
-	DoorEvt e;
-	e.ancestor.sig = DOOR_SIG;
-	e.floor = floor;
-	e.status = status;
-	return e;
-}
-
-FloorBtnEvt_t MakeaBtnEvent(Floor_t floor){
-	FloorBtnEvt_t e;
-	e.ancestor.sig = FLOORBUTTON_SIG;
-	e.targetFloor = floor;
-	return e;
-	
-}
-
-OverTemperatureEvt_t MakeanOverTempEvent(Overtemperatur_t state){
-	OverTemperatureEvt e;
-	e.ancestor.sig = OVERTEMPERATURE_SIG;
-	e.status = state;
-	return e;
-
-}
-
-OverWeightEvt_t MakeanOverWeightEvent(Overweight_t state){
-	OverWeightEvt e;
-	e.ancestor.sig = OVERWEIGHT_SIG;
-	e.status = state;
-	return e;
-
-}
 
  
 
-void CheckState(void* statehandler, uint8_t current, uint8_t target, uint8_t status, uint8_t btf, uint8_t direction){
-	FUNCTIONPOINTERS_EQUAL(statehandler, GetMe().ancesstor.state);
-	BYTES_EQUAL(target, GetMe().targetFloor);
-	BYTES_EQUAL(direction, GetMe().directionMovement);
-	BYTES_EQUAL(status, GetMe().status);
-	BYTES_EQUAL(btf, GetMe().betweenTwoFloor);
-	BYTES_EQUAL(current, GetMe().currentFloor);
-}
+
 
 TEST(ReadyState, EntrySignalBetweentTwoFloor)
 {

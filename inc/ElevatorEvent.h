@@ -18,10 +18,7 @@ enum ElevatorSignals
   OVERTEMPERATURE_SIG
 
 };
-typedef enum {
-	NOT_DETECTED=0,
-	DETECTED
-}HalSensor_t;
+
 
 typedef struct LimitSWEvt
 {
